@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CAFÉ CONTROL | El arte del café listo para tomar</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts & Font Awesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            red: '#E50914',
+                            redHover: '#B80710',
+                            darkRed: '#800000',
+                            espresso: '#140B07',
+                            roast: '#26140D',
+                            cream: '#FFF9F5',
+                            creamDark: '#F5EBE6',
+                            gold: '#D4AF37'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                        serif: ['"Playfair Display"', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .glass-dark {
+            background: rgba(20, 11, 7, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .text-gradient {
+            background: linear-gradient(135deg, #E50914 0%, #FF5252 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero-gradient {
+            background: linear-gradient(180deg, rgba(20, 11, 7, 0.4) 0%, rgba(20, 11, 7, 0.95) 100%);
+        }
+        .active-filter {
+            background-color: #E50914 !important;
+            color: #ffffff !important;
+        }
+
+        /* ============================
+           ANIMACIONES Y MICROINTERACCIONES
+           ============================ */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Aparición al hacer scroll */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-45px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(45px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Entrada elegante del hero */
+        .hero-content-animation {
+            animation: heroFadeUp 1s ease-out both;
+        }
+
+        .hero-image-animation {
+            animation: heroImageIn 1.2s ease-out 0.15s both;
+        }
+
+        @keyframes heroFadeUp {
+            from {
+                opacity: 0;
+                transform: translateY(35px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes heroImageIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.94);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        /* Movimiento flotante */
+        .float-animation {
+            animation: floating 4s ease-in-out infinite;
+        }
+
+        @keyframes floating {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Efecto suave en botones */
+        .interactive-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-btn::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -120%;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,0.25),
+                transparent
+            );
+            transform: skewX(-20deg);
+            transition: left 0.6s ease;
+        }
+
+        .interactive-btn:hover::after {
+            left: 140%;
+        }
+
+        /* Tarjetas de café */
+        .coffee-card {
+            transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+
+        .coffee-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .coffee-card img {
+            transition: transform 0.7s ease;
+        }
+
+        .coffee-card:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Iconos del footer */
+        .contact-icon {
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .contact-icon:hover {
+            transform: translateY(-5px) rotate(4deg);
+        }
+
+        /* Botón WhatsApp */
+        .whatsapp-pulse {
+            animation: whatsappPulse 2.2s infinite;
+        }
+
+        @keyframes whatsappPulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(22, 163, 74, 0.45);
+            }
+            70% {
+                box-shadow: 0 0 0 14px rgba(22, 163, 74, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(22, 163, 74, 0);
+            }
+        }
+
+        /* Respeto por usuarios que prefieren menos movimiento */
+        @media (prefers-reduced-motion: reduce) {
+            html {
+                scroll-behavior: auto;
+            }
+
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .reveal,
+            .reveal-left,
+            .reveal-right {
+                opacity: 1;
+                transform: none;
+            }
+        }
+
+    </style>
+</head>
+<body class="bg-brand-cream text-brand-espresso font-sans antialiased selection:bg-brand-red selection:text-white">
+
+    <!-- NAVBAR -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" id="navbar">
+        <nav class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 bg-brand-red rounded-full flex items-center justify-center text-white text-xl shadow-lg shadow-brand-red/30 group-hover:scale-105 transition-transform duration-300">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+                <div class="flex flex-col">
+                    <span class="font-extrabold text-xl sm:text-2xl tracking-wider text-white group-hover:text-brand-cream transition-colors">
+                        CAFÉ<span class="text-brand-red">.</span>CONTROL
+                    </span>
+                    <span class="text-[10px] uppercase tracking-widest text-gray-300 -mt-1 font-semibold">Ready to Drink</span>
+                </div>
+            </a>
+
+            <!-- Desktop Menu -->
+            <div class="hidden lg:flex items-center gap-8 font-semibold text-sm text-white/90">
+                <a href="#menu" class="hover:text-brand-red transition-colors py-2">Menú de Cafés</a>
+                <a href="#experiencia" class="hover:text-brand-red transition-colors py-2">La Experiencia</a>
+                <a href="#customizer" class="hover:text-brand-red transition-colors py-2">Diseña tu Vaso</a>
+                <a href="#nosotros" class="hover:text-brand-red transition-colors py-2">Sobre Nosotros</a>
+            </div>
+
+            <!-- Action Buttons & Cart -->
+            <div class="flex items-center gap-4">
+
+                <a href="#menu" class="hidden sm:inline-flex items-center justify-center gap-2 bg-brand-red hover:bg-brand-redHover text-white px-5 py-2.5 rounded-full font-bold text-sm shadow-lg shadow-brand-red/30 hover:shadow-brand-red/50 transition-all hover:-translate-y-0.5">
+                    <span>Pedir para Llevar</span>
+                    <i class="fa-solid fa-arrow-right text-xs"></i>
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileMenu()" class="lg:hidden text-white text-2xl p-2 focus:outline-none" aria-label="Abrir menú">
+                    <i class="fa-solid fa-bars-staggered" id="menu-icon"></i>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Mobile Menu Modal -->
+        <div id="mobile-menu" class="hidden lg:hidden bg-brand-espresso/98 border-b border-white/10 px-6 py-6 transition-all">
+            <div class="flex flex-col gap-4 font-medium text-white">
+                <a href="#menu" onclick="toggleMobileMenu()" class="py-2 border-b border-white/10 flex items-center justify-between">
+                    <span>Menú de Cafés</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-brand-red"></i>
+                </a>
+                <a href="#experiencia" onclick="toggleMobileMenu()" class="py-2 border-b border-white/10 flex items-center justify-between">
+                    <span>La Experiencia</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-brand-red"></i>
+                </a>
+                <a href="#customizer" onclick="toggleMobileMenu()" class="py-2 border-b border-white/10 flex items-center justify-between">
+                    <span>Diseña tu Vaso</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-brand-red"></i>
+                </a>
+                <a href="#nosotros" onclick="toggleMobileMenu()" class="py-2 border-b border-white/10 flex items-center justify-between">
+                    <span>Sobre Nosotros</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-brand-red"></i>
+                </a>
+                <a href="#menu" onclick="toggleMobileMenu()" class="mt-2 w-full bg-brand-red text-white py-3 rounded-xl font-bold text-center block">
+                    Pedir para Llevar
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative min-h-screen flex items-center justify-center pt-24 pb-16 overflow-hidden bg-brand-espresso">
+        <!-- Background Overlay Image -->
+        <div class="absolute inset-0 z-0 opacity-40 mix-blend-overlay">
+            <img src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=2000&q=80" class="w-full h-full object-cover" alt="Ambiente de café">
+        </div>
+        
+        <!-- Glowing Orbs -->
+        <div class="absolute top-1/4 left-10 w-96 h-96 bg-brand-red/20 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-10 right-10 w-80 h-80 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid lg:grid-cols-12 gap-12 items-center">
+            
+            <!-- Left Hero Content -->
+            <div class="lg:col-span-7 text-center lg:text-left text-white space-y-6 hero-content-animation">
+                <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 border border-white/15 backdrop-blur-md text-xs sm:text-sm font-semibold text-brand-cream">
+                    <span class="w-2 h-2 rounded-full bg-brand-red animate-ping"></span>
+                    <span>100% Granos de Especialidad • Recién Servido</span>
+                </div>
+
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-[1.1]">
+                    Controla tu día con el <span class="text-brand-red italic font-serif font-normal">mejor café.</span>
+                </h1>
+
+                <p class="text-lg sm:text-xl text-gray-300 font-light max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+                    Tazas humeantes con crema irresistible, vasos de cristal helados con cold brew de extracción lenta y vasos para llevar diseñados para acompañar tu ritmo. Sin sobres, sin botes: solo café puro y recién preparado.
+                </p>
+
+                <div class="pt-4 flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+                    <a href="#menu" class="interactive-btn w-full sm:w-auto px-8 py-4 bg-brand-red hover:bg-brand-redHover text-white rounded-full font-bold text-lg shadow-xl shadow-brand-red/30 hover:shadow-brand-red/50 transition-all transform hover:-translate-y-1 flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-mug-saucer"></i>
+                        <span>Explorar Menú</span>
+                    </a>
+                    <a href="#customizer" class="interactive-btn w-full sm:w-auto px-8 py-4 bg-white/10 hover:bg-white/20 text-white rounded-full font-bold text-lg border border-white/20 backdrop-blur-sm transition-all flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-sliders"></i>
+                        <span>Crea tu Vaso</span>
+                    </a>
+                </div>
+
+                <!-- Stats/Highlights -->
+                <div class="pt-8 border-t border-white/10 grid grid-cols-3 gap-4 text-center lg:text-left">
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-extrabold text-white">92°C</p>
+                        <p class="text-xs sm:text-sm text-gray-400">Extracción Perfecta</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-extrabold text-brand-red">100%</p>
+                        <p class="text-xs sm:text-sm text-gray-400">Vaso Ecológico</p>
+                    </div>
+                    <div>
+                        <p class="text-2xl sm:text-3xl font-extrabold text-white">12 hrs</p>
+                        <p class="text-xs sm:text-sm text-gray-400">Reposo Cold Brew</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Hero Media (Featured Mug/Glass) -->
+            <div class="lg:col-span-5 relative flex justify-center hero-image-animation float-animation">
+                <div class="relative w-full max-w-md">
+                    <!-- Main Hero Glass Image -->
+                    <div class="relative z-10 rounded-3xl overflow-hidden border-2 border-white/20 shadow-2xl shadow-black/80 group">
+                        <img id="hero-img" src="https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=900&q=80" alt="Latte Art recién servido en vaso transparente" class="w-full h-[450px] object-cover transform group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-6 text-white">
+                            <span class="bg-brand-red text-xs font-extrabold px-3 py-1 rounded-full w-max mb-2">RECOMENDACIÓN DEL BARISTA</span>
+                            <h3 class="text-2xl font-bold">Cappuccino Sublime & Latte Art</h3>
+                            <p class="text-sm text-gray-300">Espresso dobles shot con leche creada al vapor a 65°C</p>
+                        </div>
+                    </div>
+
+                    <!-- Floating Badges -->
+                    <div class="absolute -top-6 -left-6 z-20 bg-white/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white text-brand-espresso hidden sm:flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-red/10 flex items-center justify-center text-brand-red text-xl">
+                            <i class="fa-solid fa-fire-flame-curved"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-500 font-semibold">Temperatura</p>
+                            <p class="font-extrabold text-sm">Servido al instante</p>
+                        </div>
+                    </div>
+
+                    <div class="absolute -bottom-6 -right-6 z-20 bg-brand-espresso/90 backdrop-blur-md p-4 rounded-2xl shadow-xl border border-white/10 text-white hidden sm:flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-brand-gold/20 flex items-center justify-center text-brand-gold text-xl">
+                            <i class="fa-solid fa-award"></i>
+                        </div>
+                        <div>
+                            <p class="text-xs text-gray-400 font-semibold">Garantía</p>
+                            <p class="font-extrabold text-sm">Crema Sostenida</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- MENU DE CAFES LISTOS PARA TOMAR -->
+    <section id="menu" class="py-24 bg-brand-cream relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-brand-red font-bold text-sm uppercase tracking-widest bg-brand-red/10 px-4 py-1.5 rounded-full">Solamente en Vaso o Taza</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-brand-espresso mt-3">Nuestra Carta de Cafés Servidos</h2>
+                <p class="text-gray-600 mt-4 text-lg">Cada preparación se elabora al momento en el vaso ideal para potenciar sus notas aromáticas y textura.</p>
+                
+                <!-- Category Filter Buttons -->
+                <div class="flex flex-wrap items-center justify-center gap-3 mt-8" id="filter-buttons">
+                    <button onclick="filterCategory('all')" class="filter-btn active-filter px-6 py-2.5 rounded-full text-sm font-bold transition-all shadow-md">
+                        Todos
+                    </button>
+                    <button onclick="filterCategory('caliente')" class="filter-btn bg-white hover:bg-gray-100 text-brand-espresso border border-gray-200 px-6 py-2.5 rounded-full text-sm font-bold transition-all">
+                        <i class="fa-solid fa-mug-hot text-brand-red mr-2"></i>Calientes
+                    </button>
+                    <button onclick="filterCategory('frio')" class="filter-btn bg-white hover:bg-gray-100 text-brand-espresso border border-gray-200 px-6 py-2.5 rounded-full text-sm font-bold transition-all">
+                        <i class="fa-solid fa-snowflake text-blue-500 mr-2"></i>Fríos & Ice
+                    </button>
+                    <button onclick="filterCategory('takeaway')" class="filter-btn bg-white hover:bg-gray-100 text-brand-espresso border border-gray-200 px-6 py-2.5 rounded-full text-sm font-bold transition-all">
+                        <i class="fa-solid fa-whiskey-glass text-brand-gold mr-2"></i>Para Llevar
+                    </button>
+                </div>
+            </div>
+
+            <!-- Coffee Cards Grid -->
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-8" id="coffee-grid">
+                <!-- Las tarjetas se cargan automáticamente con JavaScript -->
+            </div>
+            <div id="gallery-empty" class="hidden text-center py-10 text-gray-500">
+                <i class="fa-solid fa-mug-hot text-brand-red text-3xl mb-3"></i>
+                <p class="font-semibold">No encontramos cafés en esta categoría.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- SECCIÓN FILOSOFÍA / EXPERIENCIA -->
+    <section id="experiencia" class="py-24 bg-brand-roast text-white relative overflow-hidden">
+        <div class="absolute -top-32 -right-32 w-96 h-96 bg-brand-red/10 rounded-full blur-3xl"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                
+                <div class="space-y-6">
+                    <span class="text-brand-gold font-bold text-sm uppercase tracking-widest">La Ciencia del Vaso Perfecto</span>
+                    <h2 class="text-3xl sm:text-5xl font-extrabold leading-tight">
+                        ¿Por qué nuestro café no viene en frascos?
+                    </h2>
+                    <p class="text-gray-300 leading-relaxed text-lg">
+                        En <strong class="text-white">CAFÉ CONTROL</strong> creemos que el verdadero café pierde su alma al ser procesado para almacenamiento prolongado. Un espresso vive durante los primeros minutos de su extracción.
+                    </p>
+
+                    <div class="space-y-4 pt-2">
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                            <div class="w-12 h-12 rounded-xl bg-brand-red/20 text-brand-red flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-glass-water"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Cristalería Templada y Tazas Cerámicas</h4>
+                                <p class="text-sm text-gray-400">Mantiene la temperatura ideal de deglución sin alterar las moléculas aromáticas de la crema.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                            <div class="w-12 h-12 rounded-xl bg-brand-gold/20 text-brand-gold flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-leaf"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Vasos Eco Takeaway de Fibra de Bosque</h4>
+                                <p class="text-sm text-gray-400">100% biodegradables y térmicos. Mantienen tu café caliente de camino a la oficina o tu hogar.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                            <div class="w-12 h-12 rounded-xl bg-brand-red/20 text-brand-red flex items-center justify-center text-xl shrink-0">
+                                <i class="fa-solid fa-droplet"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-lg text-white">Microespuma Homogénea</h4>
+                                <p class="text-sm text-gray-400">Texturizamos la leche hasta lograr una sedosidad impecable que se integra perfectamente con el espresso.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Showcase Image Grid -->
+                <div class="grid grid-cols-2 gap-4">
+                    <img src="https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80" alt="Vaso de cristal helado iced coffee" class="rounded-3xl h-64 w-full object-cover shadow-lg hover:opacity-90 transition-opacity">
+                    <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=600&q=80" alt="Taza de cafe humeante" class="rounded-3xl h-64 w-full object-cover shadow-lg mt-8 hover:opacity-90 transition-opacity">
+                    <img src="https://images.unsplash.com/photo-1559496417-e7f25cb247f3?auto=format&fit=crop&w=600&q=80" alt="Vaso para llevar takeaway" class="rounded-3xl h-64 w-full object-cover shadow-lg -mt-8 hover:opacity-90 transition-opacity">
+                    <img src="https://images.unsplash.com/photo-1461023058943-07fcbe16d735?auto=format&fit=crop&w=600&q=80" alt="Latte art barista" class="rounded-3xl h-64 w-full object-cover shadow-lg hover:opacity-90 transition-opacity">
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- DISEÑA TU VASO INTERACTIVO -->
+    <section id="customizer" class="py-24 bg-brand-creamDark relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="bg-brand-red/10 text-brand-red font-bold text-sm uppercase tracking-widest px-4 py-1.5 rounded-full">Experiencia Interactiva</span>
+                <h2 class="text-3xl sm:text-5xl font-extrabold text-brand-espresso mt-3">Diseña Tu Vaso Ideal</h2>
+                <p class="text-gray-600 mt-3">Personaliza cada capa de tu bebida en tiempo real y envía tu elección directamente por WhatsApp.</p>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border border-gray-100 grid lg:grid-cols-12 gap-8 items-center">
+                
+                <!-- Customizer Visualizer Screen -->
+                <div class="lg:col-span-5 bg-brand-espresso rounded-2xl p-8 text-white text-center flex flex-col justify-between relative overflow-hidden min-h-[420px]">
+                    <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-brand-red/20 to-transparent pointer-events-none"></div>
+
+                    <div class="relative z-10 flex justify-between items-center text-xs text-gray-400 uppercase tracking-widest font-semibold">
+                        <span>Vista previa del vaso</span>
+                        <span id="custom-temp-badge" class="bg-brand-red text-white px-2.5 py-1 rounded-full text-[10px] font-bold">CALIENTE</span>
+                    </div>
+
+                    <!-- Dynamic Visual Representation -->
+                    <div class="relative z-10 my-6 flex flex-col items-center justify-center">
+                        <div class="relative w-44 h-56 flex items-center justify-center">
+                            <img id="custom-preview-img" src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80" alt="Vaso personalizado" class="w-full h-full object-cover rounded-2xl shadow-2xl border-2 border-white/20">
+                        </div>
+                    </div>
+
+                    <div class="relative z-10 bg-white/10 backdrop-blur-md rounded-xl p-4 text-left border border-white/10">
+                        <p class="text-xs text-gray-400">Resumen de tu receta:</p>
+                        <h4 id="custom-title-summary" class="font-extrabold text-lg text-white">Café Control Custom</h4>
+                        <p id="custom-details-summary" class="text-xs text-gray-300 mt-1">Taza de Cerámica • Leche Entera • Tostado Medio • Sin Azúcar</p>
+                    </div>
+                </div>
+
+                <!-- Customizer Controls -->
+                <div class="lg:col-span-7 space-y-6">
+                    
+                    <!-- Option 1: Tipo de Vaso -->
+                    <div>
+                        <label class="block text-sm font-bold text-brand-espresso uppercase tracking-wider mb-2">1. Selecciona el Tipo de Vaso</label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <button type="button" onclick="updateCustomizer('cup', 'Taza Cerámica Clásica', 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=500&q=80', 'CALIENTE')" class="opt-btn cup-opt border-2 border-brand-red bg-brand-red/5 font-bold py-3 px-3 rounded-xl text-xs sm:text-sm text-center transition-all flex flex-col items-center gap-1">
+                                <i class="fa-solid fa-mug-hot text-base"></i>
+                                <span>Taza Cerámica</span>
+                            </button>
+                            <button type="button" onclick="updateCustomizer('cup', 'Vaso Cristal Helado', 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=500&q=80', 'HELADO')" class="opt-btn cup-opt border-2 border-gray-200 hover:border-brand-red font-bold py-3 px-3 rounded-xl text-xs sm:text-sm text-center transition-all flex flex-col items-center gap-1">
+                                <i class="fa-solid fa-glass-water text-base"></i>
+                                <span>Cristal Helado</span>
+                            </button>
+                            <button type="button" onclick="updateCustomizer('cup', 'Vaso Takeaway Eco', 'https://images.unsplash.com/photo-1559496417-e7f25cb247f3?auto=format&fit=crop&w=500&q=80', 'PARA LLEVAR')" class="opt-btn cup-opt border-2 border-gray-200 hover:border-brand-red font-bold py-3 px-3 rounded-xl text-xs sm:text-sm text-center transition-all flex flex-col items-center gap-1">
+                                <i class="fa-solid fa-whiskey-glass text-base"></i>
+                                <span>Vaso Eco Go</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Option 2: Tipo de Leche/Base -->
+                    <div>
+                        <label class="block text-sm font-bold text-brand-espresso uppercase tracking-wider mb-2">2. Tipo de Base / Leche</label>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            <button type="button" onclick="updateCustomizer('milk', 'Leche Entera Cremosa')" class="milk-opt opt-sub border border-brand-red bg-brand-red/5 font-semibold py-2 px-3 rounded-lg text-xs text-center">Entera Cremosa</button>
+                            <button type="button" onclick="updateCustomizer('milk', 'Bebida de Almendra')" class="milk-opt opt-sub border border-gray-200 font-semibold py-2 px-3 rounded-lg text-xs text-center">Almendra</button>
+                            <button type="button" onclick="updateCustomizer('milk', 'Bebida de Avena Premium')" class="milk-opt opt-sub border border-gray-200 font-semibold py-2 px-3 rounded-lg text-xs text-center">Avena</button>
+                            <button type="button" onclick="updateCustomizer('milk', 'Solo Espresso Negro')" class="milk-opt opt-sub border border-gray-200 font-semibold py-2 px-3 rounded-lg text-xs text-center">Solo Espresso</button>
+                        </div>
+                    </div>
+
+                    <!-- Option 3: Intensidad del Tostado -->
+                    <div>
+                        <label class="block text-sm font-bold text-brand-espresso uppercase tracking-wider mb-2">3. Intensidad de Grano</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="updateCustomizer('roast', 'Tostado Ligero')" class="roast-opt opt-sub border border-gray-200 font-semibold py-2 px-3 rounded-lg text-xs text-center">Ligero (Suave)</button>
+                            <button type="button" onclick="updateCustomizer('roast', 'Tostado Medio Equilibrio')" class="roast-opt opt-sub border border-brand-red bg-brand-red/5 font-semibold py-2 px-3 rounded-lg text-xs text-center">Medio (Balance)</button>
+                            <button type="button" onclick="updateCustomizer('roast', 'Tostado Intenso Espresso')" class="roast-opt opt-sub border border-gray-200 font-semibold py-2 px-3 rounded-lg text-xs text-center">Intenso (Fuerte)</button>
+                        </div>
+                    </div>
+
+                    <!-- Option 4: Toppings / Extras -->
+                    <div>
+                        <label class="block text-sm font-bold text-brand-espresso uppercase tracking-wider mb-2">4. Toppings Especiales</label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button type="button" onclick="updateCustomizer('topping', 'Canela en Polvo')" class="topping-opt opt-sub border border-brand-red bg-brand-red/5 font-semibold py-2 px-3 rounded-lg text-xs text-center">Canela Ceylon</button>
+                            <button type="button" onclick="updateCustomizer('topping', 'Salsa de Caramelo')" class="topping-opt opt-sub border border-gray-200 font-semibold py-2 px-3 rounded-lg text-xs text-center">Caramelo</button>
+                            <button type="button" onclick="updateCustomizer('topping', 'Cacao Oscuro 70%')" class="topping-opt opt-sub border border-gray-200 font-semibold py-2 px-3 rounded-lg text-xs text-center">Cacao Rallado</button>
+                        </div>
+                    </div>
+
+                    <button onclick="sendCustomToWhatsapp()" class="interactive-btn whatsapp-pulse w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-bold text-base shadow-lg shadow-green-600/30 hover:shadow-green-600/50 transition-all flex items-center justify-center gap-3 mt-4">
+                         <i class="fa-brands fa-whatsapp text-xl"></i>
+                         <span>Vaso Personalizado por WhatsApp</span>
+                     </button>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- ABOUT SECTION / SOBRE NOSOTROS -->
+    <section id="nosotros" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="bg-gradient-to-r from-brand-espresso to-brand-roast rounded-3xl p-8 sm:p-16 text-white relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
+                <div class="max-w-xl space-y-4">
+                    <span class="text-brand-red font-bold uppercase tracking-wider text-xs">Compromiso CAFÉ CONTROL</span>
+                    <h2 class="text-3xl sm:text-4xl font-extrabold">Controlamos cada gota de tu experiencia</h2>
+                    <p class="text-gray-300 text-sm sm:text-base leading-relaxed">
+                        Nacimos para rebelarnos contra el café envasado, soluble o conservado en frascos de vidrio. Tu cuerpo y tu paladar merecen un café extraído al instante por baristas capacitados, servido en el recipiente óptimo.
+                    </p>
+                </div>
+                <div class="shrink-0">
+                    <div class="w-32 h-32 sm:w-40 sm:h-40 rounded-full border-4 border-brand-red flex flex-col items-center justify-center p-4 text-center bg-black/40 backdrop-blur-sm">
+                        <i class="fa-solid fa-award text-brand-gold text-3xl mb-1"></i>
+                        <span class="font-extrabold text-sm sm:text-base leading-none">100% SERVIDO</span>
+                        <span class="text-[10px] text-gray-400 mt-1">AL MOMENTO</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-espresso text-white pt-16 pb-8 border-t border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-10 pb-12 border-b border-white/10">
+
+                <!-- Marca -->
+                <div class="space-y-5 reveal-left">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-brand-red rounded-full flex items-center justify-center text-white text-lg">
+                            <i class="fa-solid fa-mug-hot"></i>
+                        </div>
+                        <span class="font-extrabold text-2xl tracking-wider">
+                            CAFÉ<span class="text-brand-red">.</span>CONTROL
+                        </span>
+                    </div>
+
+                    <p class="text-gray-400 text-sm leading-relaxed">
+                        El arte del café recién servido. Sin conservantes, sin frascos
+                        y preparado especialmente para ti.
+                    </p>
+
+                    <div class="flex gap-3">
+                        <a href="#" aria-label="Facebook"
+                           class="contact-icon w-10 h-10 rounded-full bg-white/5 hover:bg-brand-red flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+
+                        <a href="#" aria-label="Instagram"
+                           class="contact-icon w-10 h-10 rounded-full bg-white/5 hover:bg-brand-red flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+
+                        <a href="https://wa.me/50312345678" target="_blank" aria-label="WhatsApp"
+                           class="contact-icon w-10 h-10 rounded-full bg-white/5 hover:bg-green-600 flex items-center justify-center transition-all">
+                            <i class="fa-brands fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Contacto -->
+                <div class="reveal">
+                    <h3 class="text-lg font-bold mb-5">
+                        <span class="text-brand-red">Contáctanos</span>
+                    </h3>
+
+                    <div class="space-y-4 text-sm text-gray-400">
+
+                        <a href="https://wa.me/50312345678" target="_blank"
+                           class="flex items-start gap-3 hover:text-white transition-colors group">
+                            <span class="contact-icon w-9 h-9 shrink-0 rounded-lg bg-green-600/10 text-green-500 flex items-center justify-center">
+                                <i class="fa-brands fa-whatsapp"></i>
+                            </span>
+                            <span>
+                                <strong class="block text-white">WhatsApp</strong>
+                                Escríbenos para realizar tu pedido
+                            </span>
+                        </a>
+
+                        <a href="tel:+50312345678"
+                           class="flex items-start gap-3 hover:text-white transition-colors group">
+                            <span class="contact-icon w-9 h-9 shrink-0 rounded-lg bg-brand-red/10 text-brand-red flex items-center justify-center">
+                                <i class="fa-solid fa-phone"></i>
+                            </span>
+                            <span>
+                                <strong class="block text-white">Teléfono</strong>
+                                +503 1234-5678
+                            </span>
+                        </a>
+
+                        <a href="mailto:contacto@cafecontrol.com"
+                           class="flex items-start gap-3 hover:text-white transition-colors group">
+                            <span class="contact-icon w-9 h-9 shrink-0 rounded-lg bg-brand-gold/10 text-brand-gold flex items-center justify-center">
+                                <i class="fa-solid fa-envelope"></i>
+                            </span>
+                            <span>
+                                <strong class="block text-white">Correo</strong>
+                                contacto@cafecontrol.com
+                            </span>
+                        </a>
+
+                    </div>
+                </div>
+
+                <!-- Horarios -->
+                <div class="reveal">
+                    <h3 class="text-lg font-bold mb-5">
+                        <span class="text-brand-red">Horarios</span>
+                    </h3>
+
+                    <div class="space-y-3 text-sm text-gray-400">
+                        <div class="flex justify-between gap-4">
+                            <span>Lunes - Viernes</span>
+                            <span class="text-white font-semibold">7:00 AM - 8:00 PM</span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span>Sábado</span>
+                            <span class="text-white font-semibold">8:00 AM - 9:00 PM</span>
+                        </div>
+
+                        <div class="flex justify-between gap-4">
+                            <span>Domingo</span>
+                            <span class="text-white font-semibold">8:00 AM - 6:00 PM</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 flex items-center gap-2 text-xs text-green-400">
+                        <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                        Estamos listos para preparar tu café
+                    </div>
+                </div>
+
+                <!-- Ubicación -->
+                <div class="reveal-right">
+                    <h3 class="text-lg font-bold mb-5">
+                        <span class="text-brand-red">Encuéntranos</span>
+                    </h3>
+
+                    <div class="space-y-4 text-sm text-gray-400">
+                        <div class="flex items-start gap-3">
+                            <span class="contact-icon w-9 h-9 shrink-0 rounded-lg bg-brand-red/10 text-brand-red flex items-center justify-center">
+                                <i class="fa-solid fa-location-dot"></i>
+                            </span>
+                            <p>
+                                <strong class="block text-white">Nuestra cafetería</strong>
+                                El Salvador
+                            </p>
+                        </div>
+
+                        <p class="leading-relaxed">
+                            Ven a disfrutar de un café preparado al momento o
+                            escríbenos por WhatsApp para realizar tu pedido.
+                        </p>
+
+                        <a href="#menu"
+                           class="inline-flex items-center gap-2 text-brand-red hover:text-white font-bold transition-colors">
+                            Ver nuestro menú
+                            <i class="fa-solid fa-arrow-right text-xs"></i>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mt-8 flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+                <p>
+                    &copy; 2026 CAFÉ CONTROL. Todos los derechos reservados.
+                </p>
+
+                <p class="flex items-center gap-2">
+                    Hecho con <i class="fa-solid fa-heart text-brand-red"></i> para amantes del café.
+                </p>
+            </div>
+
+        </div>
+    </footer>
+
+
+    <!-- JAVASCRIPT -->
+    <script>
+        // CONFIGURACIÓN DE NÚMERO DE WHATSAPP (Ajusta con tu código de país y número)
+        const WHATSAPP_NUMBER = "50312345678"; // Ejemplo: 503XXXXXXXX
+
+        // DATOS DEL MENÚ (Sin Precios)
+        const coffees = [
+            {
+                id: 1,
+                name: "Espresso Doble Especialidad",
+                category: "caliente",
+                desc: "Extracción pura a 9bar de presión. Servido en taza de cerámica precalentada para conservar la crema.",
+                badge: "Taza Cerámica",
+                img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 2,
+                name: "Cappuccino Velvet Silk",
+                category: "caliente",
+                desc: "Espresso equilibrado con leche texturizada al vapor con microespuma densa y sedosa.",
+                badge: "Arte Latte",
+                img: "https://images.unsplash.com/photo-1534778101976-62847782c213?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 3,
+                name: "Iced Caramel Macchiato",
+                category: "frio",
+                desc: "Servido en vaso de cristal helado con cubos de hielo de café puro, leche fría y sirope de caramelo.",
+                badge: "Cristal Helado",
+                img: "https://images.unsplash.com/photo-1517256064527-09c73fc73e38?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 4,
+                name: "Cold Brew Reposo 12h",
+                category: "frio",
+                desc: "Extracción lenta en frío durante 12 horas. Notas dulces, baja acidez y cuerpo completo servido sobre hielo.",
+                badge: "Vaso de Cristal",
+                img: "https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 5,
+                name: "Flat White Eco Go",
+                category: "takeaway",
+                desc: "Doble shot de ristretto con una capa fina de leche servido en nuestro vaso térmico biodegradable.",
+                badge: "Para Llevar",
+                img: "https://images.unsplash.com/photo-1559496417-e7f25cb247f3?auto=format&fit=crop&w=600&q=80"
+            },
+            {
+                id: 6,
+                name: "Mocha Oscuro Cacao 70%",
+                category: "caliente",
+                desc: "Mezcla artesanal de chocolate amargo, doble espresso y leche cremosa con toque de cacao espolvoreado.",
+                badge: "Taza de Cerámica",
+                img: "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80"
+            }
+        ];
+        let customizerState = {
+            cup: 'Taza Cerámica Clásica',
+            milk: 'Leche Entera Cremosa',
+            roast: 'Tostado Medio Equilibrio',
+            topping: 'Canela en Polvo',
+            tempBadge: 'CALIENTE'
+        };
+
+        // RENDERIZAR MENÚ
+        function renderMenu(items) {
+            const grid = document.getElementById('coffee-grid');
+            const empty = document.getElementById('gallery-empty');
+
+            if (!items || items.length === 0) {
+                grid.innerHTML = '';
+                empty?.classList.remove('hidden');
+                return;
+            }
+
+            empty?.classList.add('hidden');
+            grid.innerHTML = items.map(item => `
+                <div class="coffee-card bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 border border-gray-100 flex flex-col justify-between group reveal">
+                    <div>
+                        <div class="relative h-60 overflow-hidden">
+                            <img src="${item.img}" alt="${item.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                            <span class="absolute top-4 left-4 bg-brand-espresso/80 backdrop-blur-md text-brand-gold text-xs font-bold px-3 py-1 rounded-full">
+                                ${item.badge}
+                            </span>
+                        </div>
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold text-brand-espresso mb-2">${item.name}</h3>
+                            <p class="text-gray-600 text-sm leading-relaxed">${item.desc}</p>
+                        </div>
+                    </div>
+                    <div class="px-6 pb-6 pt-2">
+                        <div class="grid grid-cols-2 gap-2">
+                            <button onclick="goToCustomizer('${item.name}')" class="interactive-btn w-full bg-brand-cream border border-brand-red text-brand-red hover:bg-brand-red hover:text-white py-3 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2">
+                                 <i class="fa-solid fa-wand-magic-sparkles"></i>
+                                 <span>Personalizar</span>
+                             </button>
+                            <button onclick="orderSingleWhatsapp('${item.name}')" class="interactive-btn w-full bg-green-600 hover:bg-green-700 text-white py-3 rounded-xl font-bold text-xs sm:text-sm transition-all duration-300 hover:-translate-y-1 flex items-center justify-center gap-2">
+                                <i class="fa-brands fa-whatsapp text-base"></i>
+                                <span>Pedir</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Activar las animaciones de las tarjetas recién creadas
+            requestAnimationFrame(() => {
+                grid.querySelectorAll('.reveal').forEach((card, index) => {
+                    card.style.transitionDelay = `${index * 80}ms`;
+                    requestAnimationFrame(() => card.classList.add('active'));
+                });
+            });
+        }
+
+        // FILTRAR CATEGORÍAS
+        function filterCategory(category) {
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => {
+                btn.classList.remove('active-filter');
+                btn.classList.add('bg-white', 'text-brand-espresso');
+            });
+
+            const clickedButton = document.querySelector(`[onclick="filterCategory('${category}')"]`);
+            if (clickedButton) {
+                clickedButton.classList.add('active-filter');
+                clickedButton.classList.remove('bg-white', 'text-brand-espresso');
+            }
+
+            if (category === 'all') {
+                renderMenu(coffees);
+            } else {
+                const filtered = coffees.filter(c => c.category === category);
+                renderMenu(filtered);
+            }
+            setTimeout(animateCoffeeCards, 100);
+        }
+
+        // ACTUALIZAR PERSONALIZADOR DE VASO
+        function updateCustomizer(type, val, imgUrl = null, tempBadge = null) {
+            if (type === 'cup') {
+                customizerState.cup = val;
+                if (imgUrl) document.getElementById('custom-preview-img').src = imgUrl;
+                if (tempBadge) {
+                    customizerState.tempBadge = tempBadge;
+                    document.getElementById('custom-temp-badge').innerText = tempBadge;
+                }
+                
+                document.querySelectorAll('.cup-opt').forEach(btn => {
+                    btn.classList.remove('border-brand-red', 'bg-brand-red/5');
+                    btn.classList.add('border-gray-200');
+                });
+                event.currentTarget.classList.add('border-brand-red', 'bg-brand-red/5');
+                event.currentTarget.classList.remove('border-gray-200');
+            }
+
+            if (type === 'milk') {
+                customizerState.milk = val;
+                document.querySelectorAll('.milk-opt').forEach(btn => {
+                    btn.classList.remove('border-brand-red', 'bg-brand-red/5');
+                    btn.classList.add('border-gray-200');
+                });
+                event.currentTarget.classList.add('border-brand-red', 'bg-brand-red/5');
+            }
+
+            if (type === 'roast') {
+                customizerState.roast = val;
+                document.querySelectorAll('.roast-opt').forEach(btn => {
+                    btn.classList.remove('border-brand-red', 'bg-brand-red/5');
+                    btn.classList.add('border-gray-200');
+                });
+                event.currentTarget.classList.add('border-brand-red', 'bg-brand-red/5');
+            }
+
+            if (type === 'topping') {
+                customizerState.topping = val;
+                document.querySelectorAll('.topping-opt').forEach(btn => {
+                    btn.classList.remove('border-brand-red', 'bg-brand-red/5');
+                    btn.classList.add('border-gray-200');
+                });
+                event.currentTarget.classList.add('border-brand-red', 'bg-brand-red/5');
+            }
+
+            document.getElementById('custom-details-summary').innerText = `${customizerState.cup} • ${customizerState.milk} • ${customizerState.roast} • Extra: ${customizerState.topping}`;
+        }
+
+        // ENVIAR VASO PERSONALIZADO POR WHATSAPP
+        function sendCustomToWhatsapp() {
+            const message = `¡Hola! Quiero pedir un Vaso Personalizado en CAFÉ CONTROL:
+
+• Tipo de vaso: ${customizerState.cup}
+• Base / leche: ${customizerState.milk}
+• Intensidad: ${customizerState.roast}
+• Topping: ${customizerState.topping}
+• Temperatura: ${customizerState.tempBadge}
+
+Por favor me confirman disponibilidad y precio. ¡Gracias!`;
+
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+        // IR AL PERSONALIZADOR DESDE LA GALERÍA
+        function goToCustomizer(coffeeName) {
+            document.getElementById('customizer').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // ENVIAR PEDIDO INDIVIDUAL POR WHATSAPP
+        function orderSingleWhatsapp(coffeeName) {
+            const message = `¡Hola! Me gustaría pedir un: ${coffeeName}.`;
+            const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(url, '_blank');
+        }
+
+
+        // ANIMACIONES AL HACER SCROLL
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+
+        const revealObserver = new IntersectionObserver((entries, observer) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, {
+            threshold: 0.12
+        });
+
+        revealElements.forEach((element) => {
+            revealObserver.observe(element);
+        });
+
+        // Animación escalonada de las tarjetas del menú
+        function animateCoffeeCards() {
+            document.querySelectorAll('#coffee-grid .coffee-card').forEach((card, index) => {
+                card.style.transitionDelay = `${index * 0.08}s`;
+            });
+        }
+
+        // INICIALIZACIÓN
+        document.addEventListener('DOMContentLoaded', () => {
+            renderMenu(coffees);
+            setTimeout(animateCoffeeCards, 100);
+        });
+
+    </script>
+</body>
+</html>
